@@ -8,6 +8,7 @@ namespace vacuum_simulator{
         for (auto i = 0; i < x_range; ++i) {
             grid_.emplace_back(std::vector<uint8_t> (y_range, 0));
         }
+        // subtract the blocked out part that makes the room L-shaped
         auto x_block = static_cast<int> ((x_max1 - x_max2) / resolution_);
         auto y_block = static_cast<int> ((y_max1 - y_max2) / resolution_);
         total_cells_ = (x_range * y_range) - (x_block * y_block);
@@ -43,8 +44,8 @@ namespace vacuum_simulator{
         std::ofstream ofsg;
         ofsg.open("../grid.txt");
         for (const auto& row : grid_) {
-            for (const auto& val : row) {
-                ofsg << (int)val <<" ";
+            for (const auto& cell : row) {
+                ofsg << (int)cell <<" ";
             }
             ofsg << std::endl;
         }
@@ -56,7 +57,7 @@ namespace vacuum_simulator{
         auto cy = static_cast<int>(y / resolution_);
         // assumes bounds have been checked
         if(grid_[cy][cx] == 0)
-            return 2.0; // double probability if direction is 'dirty'
+            return 2.0; // double probability if direction is not yet swept
         else
             return 1.0;
     }

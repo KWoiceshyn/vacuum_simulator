@@ -38,6 +38,8 @@ def main():
 
     # plot it
     plt.imshow(arr, interpolation='none', cmap=cmap, norm=norm, origin='lower')
+    plt.title('Area Swept')
+    plt.axis('equal')
     plt.show()
 
 
